@@ -70,7 +70,7 @@ static void *run_stoc_loop(void *arg)
 	printf("%s: fd = %d\n", __func__, cdata->fd);
 
 	while (!cdata->stop_stoc && cdata->fd > 0 && cdata->sfd > 0) {
-		recv_len = socket_receive_timeout(cdata->sfd, buffer, sizeof(buffer), 0, 5000);
+		recv_len = socket_receive_timeout(cdata->sfd, buffer, sizeof(buffer), 0, 5000, SOCKET_CANCEL_FD_NONE);
 		if (recv_len <= 0) {
 			if (recv_len == 0 || recv_len == -ETIMEDOUT) {
 				// try again
@@ -123,7 +123,7 @@ static void *run_ctos_loop(void *arg)
 #endif
 
 	while (!cdata->stop_ctos && cdata->fd>0 && cdata->sfd>0) {
-		recv_len = socket_receive_timeout(cdata->fd, buffer, sizeof(buffer), 0, 5000);
+		recv_len = socket_receive_timeout(cdata->fd, buffer, sizeof(buffer), 0, 5000, SOCKET_CANCEL_FD_NONE);
 		if (recv_len <= 0) {
 			if (recv_len == 0 || recv_len == -ETIMEDOUT) {
 				// try again
